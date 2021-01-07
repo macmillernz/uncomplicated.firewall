@@ -1,0 +1,13 @@
+<?xml version='1.0' standalone='yes'?>
+
+<!DOCTYPE PLUGIN [
+<!ENTITY name      "unraid-firewall">
+<!ENTITY author    "macmiller">
+<!ENTITY version   "2020.01.10">
+<!ENTITY pluginURL "https://github.com/macmiller/unraid-firewall/raw/master/unraid-firewall-0.10.plg">
+]>
+
+<PLUGIN  name="&name;"
+         author="&author;"
+         version="&version;"
+         pluginURL="&pluginURL;">
