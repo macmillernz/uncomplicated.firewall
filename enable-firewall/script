@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Install Uncomplicated Firewall
+upgradepkg --install-new /boot/config/plugins/user.scripts/scripts/enable-firewall/ufw-0.35-x86_64-1_slonly.txz
+
+# Enable Uncomplicated Firewall
+ufw enable
+
+# Allow default required ports
+ufw allow 22
+ufw allow 53
+ufw allow 80
+ufw allow 443
+uff allow 445
+
+# Allow port 80 to only container on 172.17.0.2
+#ufw route allow proto tcp from any to 172.17.0.2 port 80
+
+# Reload UFW to enable rules and forwarding
+ufw reload
+
+exit 0
