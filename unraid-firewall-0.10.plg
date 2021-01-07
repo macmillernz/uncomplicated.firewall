@@ -4,10 +4,81 @@
 <!ENTITY name      "unraid-firewall">
 <!ENTITY author    "macmiller">
 <!ENTITY version   "2020.01.10">
-<!ENTITY pluginURL "https://github.com/macmiller/unraid-firewall/raw/master/unraid-firewall-0.10.plg">
+<!ENTITY pluginURL "https://github.com/macmillernz/unraid-firewall/blob/main/unraid-firewall-0.10.plg">
 ]>
+
+<CHANGES>
+###2020.01.10
+- Made a change
+- Made another change
+</CHANGES>
 
 <PLUGIN  name="&name;"
          author="&author;"
          version="&version;"
          pluginURL="&pluginURL;">
+
+<!--
+2020.01.10 - first release
+
+Includes Linux Uncomplicated Firewall and implements an iptable chain to control open docker socket ports. 
+This allows full control of your host network using UFW and inbound access to docker containers.
+
+-->
+
+<FILE Name="/boot/packages/ntfs-3g-2013.1.13-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>https://github.com/macmillernz/unraid-firewall/blob/main/ufw-0.35-x86_64-1_slonly.txz</URL>
+</FILE>
+
+<FILE Name="/boot/config/plugins/&name;/ntfs-3g.png">
+<URL>https://github.com/macmillernz/unraid-firewall/blob/main/ufw-logo.png</URL>
+</FILE>
+
+<FILE Name="/usr/local/emhttp/plugins/&name;/ufw-logo.png">
+<LOCAL>/boot/config/plugins/&name;/ufw-logo.png</LOCAL>
+</FILE>
+
+<!--
+Page file
+-->
+<FILE Name="/usr/local/emhttp/plugins/&name;/Unraid-Firewall.page">
+<INLINE>
+<![CDATA[
+Menu="OtherSettings"
+Icon="ufw-logo.png"
+Version="2020.01.10"
+Author="SeeDrs"
+Title="Unraid Firewall"
+---
+<?php
+shell_exec('php /usr/local/emhttp/plugins/snap/UnraidFirewall.php');
+?>
+]]>
+</INLINE>
+</FILE>
+
+<!--
+create plugin README.md file
+-->
+<FILE Name="/usr/local/emhttp/plugins/&name;/README.md">
+<INLINE>
+**Unraid Firewall Package**
+
+Includes Linux Uncomplicated Firewall and implements an iptable chain to control open docker socket ports.
+This allows full control of your host network using UFW and inbound access to docker containers.
+</INLINE>
+</FILE>
+
+<!--
+The 'remove' script.
+-->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+rm /boot/packages/ufw-0.35-x86_64-1_slonly.txz
+removepkg &name;
+rm -r /usr/local/emhttp/plugins/&name;
+rm -r /boot/config/plugins/&name;
+</INLINE>
+</FILE>
+
+</PLUGIN>
